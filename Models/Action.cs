@@ -9,10 +9,10 @@ public class Action
   [BsonRepresentation(BsonType.ObjectId)]
   public string? Id { get; set; }
   [BsonElement("Timestamp")]
-  public DateTime? Timestamp { get; set; }
-  public string Email { get; set; }
-  public string Calling { get; set; }
-  public string UserName { get; set; }
-  public string MinisterName { get; set; }
+  public string? Timestamp { get; set; }
+  public string? Email { get; set; }
+  public string? Calling { get; set; }
+  public string? UserName { get; set; }
+  public string? MinisterName { get; set; }
   public string? Details { get; set; }
 }
