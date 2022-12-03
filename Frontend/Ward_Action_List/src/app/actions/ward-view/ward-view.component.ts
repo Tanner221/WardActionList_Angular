@@ -16,6 +16,7 @@ export class WardViewComponent implements OnInit {
       this.Actions = result;
     }
     )
+    this.actionService.getActions();
   }
   
   onDelete(Id: string) {
