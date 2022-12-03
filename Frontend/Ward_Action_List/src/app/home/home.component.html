@@ -20,8 +20,8 @@
   </div>
 </div>
 
-
 <div class="container mt-3 text-center">
   <a class="btn btn-primary btn-large m-2" routerLink="/actions">Add New Action</a>
-  <a class="btn btn-secondary btn-large m-2">Ward Login</a>
+  <a class="btn btn-secondary btn-large m-2" [routerLink]="['/auth']" *ngIf="!isAuthenticated">Ward Login</a>
+  <a class="btn btn-secondary btn-large m-2" [routerLink]="['/ward-view']" *ngIf="isAuthenticated">Ward View</a>
 </div>

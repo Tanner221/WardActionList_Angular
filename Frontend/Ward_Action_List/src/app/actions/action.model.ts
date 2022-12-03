@@ -1,4 +1,4 @@
-export class action {
+export class Action {
   constructor(
     public Id: string,
     public Timestamp: Date,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { action } from '../action.model';
-import { ActionService } from '../actions/action.service';
+import { Action } from '../action.model';
+import { ActionService } from '../action.service';
 
 @Component({
   selector: 'app-ward-view',
@@ -8,17 +8,17 @@ import { ActionService } from '../actions/action.service';
   styleUrls: ['./ward-view.component.css']
 })
 export class WardViewComponent implements OnInit {
-  Actions: action[] = []
+  Actions: Action[] = []
   constructor(private actionService: ActionService) { }
-
+  
   ngOnInit(): void {
     this.actionService.actionChangedEvent.subscribe(result => {
       this.Actions = result;
-      console.log(this.Actions);
-      console.log(this.Actions[0].Timestamp);
-      console.log(new Date())
     }
     )
   }
-
+  
+  onDelete(Id: string) {
+    this.actionService.DeleteAction(Id);
+  }
 }

@@ -14,8 +14,11 @@ public class ActionsController : ControllerBase
       _ActionService = actionService;
 
   [HttpGet]
-  public async Task<List<WardActionList.Models.Action>> Get() =>
-      await _ActionService.GetAsync();
+  public async Task<List<WardActionList.Models.Action>> Get(){
+    var actions = await _ActionService.GetAsync();
+    return actions;
+  }
+      
 
   [HttpGet("{id:length(24)}")]
   public async Task<ActionResult<WardActionList.Models.Action>> Get(string id)
@@ -33,11 +36,9 @@ public class ActionsController : ControllerBase
   [HttpPost]
   public async Task<IActionResult> Post(WardActionList.Models.Action newAction)
   {
-    if (String.IsNullOrEmpty(newAction.Timestamp))
+    if (newAction.Timestamp == null)
     {
-      newAction.Timestamp = DateTime.Now.ToUniversalTime()
-      .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
-      .TotalMilliseconds.ToString();
+      newAction.Timestamp = DateTime.Now.ToUniversalTime();
     }
     await _ActionService.CreateAsync(newAction);
 
