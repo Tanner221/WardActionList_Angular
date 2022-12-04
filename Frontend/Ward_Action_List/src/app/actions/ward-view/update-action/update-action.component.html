@@ -1,0 +1,40 @@
+<div class="container mb-3 align-items-center col-md-6">
+  <h2>Update Action</h2>
+  <form #actionForm="ngForm" (ngSubmit)="onSubmit(actionForm)">
+    <div class="alert alert-danger" *ngIf="(!email.valid && email.touched)">
+      The email field is required
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="email">Email</label>
+      <input type="email" id="email" class="form-control required" [ngModel]="Action.Email" #email="ngModel" name="email" required email>
+    </div>
+    <div class="alert alert-danger" *ngIf="(!userName.valid && userName.touched)">
+      The name field is required
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="UserName">Name</label>
+      <input type="text" id="UserName" class="form-control required" [ngModel]="Action.UserName" #userName="ngModel" name="userName" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="Calling">Calling</label>
+      <input type="text" id="Calling" class="form-control required" [ngModel]="Action.Calling" #calling="ngModel" name="calling" required>
+    </div>
+    <div class="alert alert-danger" *ngIf="(!minister.valid && minister.touched)">
+      The ministering field is required
+    </div>
+<div class="mb-3">
+  <label class="form-label" for="UserName">Who Will you minister to this Week?</label>
+  <input type="text" id="UserName" class="form-control required" [ngModel]="Action.MinisterName" #minister="ngModel" name="ministerName" required>
+</div>
+<hr>
+<div class="form-floating mb-3">
+  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" [ngModel]="Action.Details"
+    name="details"></textarea>
+  <label for="floatingTextarea2">Comments</label>
+</div>
+<div class="mb-3">
+  <button type="submit" class="btn btn-primary mx-1" [disabled]="!actionForm.valid">Submit</button>
+  <button type="button" class="btn btn-secondary mx-1" (click)="onCancel()">Back</button>
+</div>
+</form>
+</div>

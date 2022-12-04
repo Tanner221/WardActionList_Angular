@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Action } from '../action.model';
 import { ActionService } from '../action.service';
 
@@ -9,7 +10,7 @@ import { ActionService } from '../action.service';
 })
 export class WardViewComponent implements OnInit {
   Actions: Action[] = []
-  constructor(private actionService: ActionService) { }
+  constructor(private actionService: ActionService, private router:Router, private route: ActivatedRoute) { }
   
   ngOnInit(): void {
     this.actionService.actionChangedEvent.subscribe(result => {
@@ -21,5 +22,9 @@ export class WardViewComponent implements OnInit {
   
   onDelete(Id: string) {
     this.actionService.DeleteAction(Id);
+  }
+
+  onUpdate(Id: string) {
+    this.router.navigate([Id], { relativeTo: this.route, queryParamsHandling: 'preserve'});
   }
 }

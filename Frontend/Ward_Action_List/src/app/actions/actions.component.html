@@ -1,61 +1,71 @@
 <div class="container mb-3 align-items-center col-md-6">
+  <h2>Add New Action</h2>
   <form #actionForm="ngForm" (ngSubmit)="onSubmit(actionForm)">
+    <div class="alert alert-danger" *ngIf="(!email.valid && email.touched)">
+      The email field is required
+    </div>
     <div class="mb-3">
       <label class="form-label" for="email">Email</label>
-      <input type="email" id="email" class="form-control" ngModel name="email" required email>
+      <input type="email" id="email" class="form-control required" ngModel #email="ngModel" name="email" required email>
+    </div>
+    <div class="alert alert-danger" *ngIf="(!userName.valid && userName.touched)">
+      The name field is required
     </div>
     <div class="mb-3">
       <label class="form-label" for="UserName">What is your name?</label>
-      <input type="text" id="UserName" class="form-control" ngModel name="userName" required>
+      <input type="text" id="UserName" class="form-control required" ngModel #userName="ngModel" name="userName" required>
     </div>
     <div class="mb-3">
       <p>Please Select your calling:</p>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="ElderQ" value="Elders's Quorum" ngModel checked>
+        <input class="form-check-input" type="radio"  name="calling" id="ElderQ" value="Elders's Quorum" checked="checked" ngModel required>
         <label class="form-check-label" for="ElderQ">
           Elder's Quorum
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="ReliefS" value="Relief Society" ngModel>
+        <input class="form-check-input" type="radio"  name="calling" id="ReliefS" value="Relief Society" required>
         <label class="form-check-label" for="ReliefS">
           Relief Society
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="FHECoord" value="FHE Leader" ngModel>
+        <input class="form-check-input" type="radio"  name="calling" id="FHECoord" value="FHE Leader" ngModel required>
         <label class="form-check-label" for="FHECoord">
           FHE Leader
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="SLC" value="Student Living Coordinator" ngModel>
+        <input class="form-check-input" type="radio"  name="calling" id="SLC" value="Student Living Coordinator" ngModel required>
         <label class="form-check-label" for="SLC">
           Student Living Coordinator
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="FamHis" value="Family History" ngModel>
+        <input class="form-check-input" type="radio"  name="calling" id="FamHis" value="Family History" ngModel required>
         <label class="form-check-label" for="FamHis">
           Family History
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="WardMiss" value="Ward Missionary" ngModel>
+        <input class="form-check-input" type="radio"  name="calling" id="WardMiss" value="Ward Missionary" ngModel required>
         <label class="form-check-label" for="WardMiss">
           Ward Missionary
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio"  name="calling" id="other" value="Other" ngModel>
+        <input class="form-check-input" type="radio"  name="calling" id="other" value="Other" ngModel required>
         <label class="form-check-label" for="other">
           Other
         </label>
       </div>
     </div>
+    <div class="alert alert-danger" *ngIf="(!minister.valid && minister.touched)">
+      The ministering field is required
+    </div>
 <div class="mb-3">
   <label class="form-label" for="UserName">Who Will you minister to this Week?</label>
-  <input type="text" id="UserName" class="form-control" ngModel name="ministerName" required>
+  <input type="text" id="UserName" class="form-control required" ngModel #minister="ngModel" name="ministerName" required>
 </div>
 <hr>
 <div class="form-floating mb-3">
@@ -64,7 +74,7 @@
   <label for="floatingTextarea2">Comments</label>
 </div>
 <div class="mb-3">
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!actionForm.valid">Submit</button>
 </div>
 </form>
 </div>

@@ -4,3 +4,14 @@
 p{
   font-weight: bolder;
 }
+/* .required.ng-invalid {
+  border: 1px solid red;
+} */
+
+/* .invalid.ng-invalid.ng-dirty {
+  border: 1px solid red;
+} */
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}

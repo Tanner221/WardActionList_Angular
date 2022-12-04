@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Action } from './action.model';
 
 interface responseType {
@@ -28,12 +28,46 @@ export class ActionService {
   getActions() {
     this.http.get<responseType[]>(this.Base_Url).subscribe((response:responseType[])=>{
       this.Actions = response.map(item => {
-        return new Action(item.id, new Date(item.timestamp), item.email, item.calling, item.userName, item.ministerName, item.details);
+        return this.ResponseToAction(item);
       })
       this.sortAndSend();
     })
   }
   
+  getAction(id: string) : Action | undefined {
+    this.getActions();
+    return this.Actions.find(item => {
+      return item.Id === id;
+    })
+  }
+  
+  updateAction(OriginalAction: Action, newAction: Action) {
+    if(!OriginalAction || !newAction){
+      return;
+    }
+
+    const pos = this.Actions.findIndex(d => d.Id === OriginalAction.Id);
+
+    if(pos < 0){
+      return;
+    }
+
+    newAction.Id = OriginalAction.Id;
+    newAction.Timestamp = OriginalAction.Timestamp;
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    this.http.put(this.Base_Url + newAction.Id,
+     this.ActionToResponse(newAction),
+      { headers: headers})
+      .subscribe(
+        (response) => {
+          this.Actions[pos] = newAction;
+          this.sortAndSend();
+        }
+      )
+  }
+
   DeleteAction(Id: string) {
     const pos = this.Actions.findIndex(d => d.Id == Id);
     
@@ -55,7 +89,7 @@ export class ActionService {
       }
       const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-      const sendItem:responseType = this.ActonToResponse(newAction);
+      const sendItem:responseType = this.ActionToResponse(newAction);
       this.http.post<responseType>(this.Base_Url, sendItem, { headers: headers }).subscribe(
         (responseData) => {
           this.Actions.push(this.ResponseToAction(responseData));
@@ -68,12 +102,12 @@ export class ActionService {
 
     sortAndSend() {
       this.Actions.sort((a, b) =>
-      a.Timestamp > b.Timestamp ? 1 : b.Timestamp > a.Timestamp ? -1 : 0
+      a.Timestamp < b.Timestamp ? 1 : b.Timestamp < a.Timestamp ? -1 : 0
       );
       this.actionChangedEvent.next(this.Actions.slice());
     }
 
-    ActonToResponse(action:Action){
+    ActionToResponse(action:Action){
       let response:responseType= {
         id : action.Id,
         timestamp : action.Timestamp.toISOString(),
@@ -87,7 +121,9 @@ export class ActionService {
     }
 
     ResponseToAction(item:responseType){
-      return new Action(item.id, new Date(item.timestamp), item.email, item.calling, item.userName, item.ministerName, item.details);
+      const action = new Action(item.id, new Date(item.timestamp), item.email, item.calling, item.userName, item.ministerName, item.details);
+      //console.log(action);
+      return action;
     }
     
   }

@@ -10,6 +10,9 @@ import { ActionService } from './action.service';
   styleUrls: ['./actions.component.css']
 })
 export class ActionsComponent implements OnInit {
+
+  // Action:Action = new Action("", new Date(),"", "Elders's Quorum", "", "", null);
+  theCheckbox:Boolean = true;
   
   constructor(private actionService:ActionService, private router:Router) { }
   
