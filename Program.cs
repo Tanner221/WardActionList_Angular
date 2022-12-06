@@ -1,10 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using WardActionList.Models;
 using WardActionList.Services;
+using Microsoft.AspNetCore.Identity;
+using WardActionList.Data;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("WardActionListIdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'WardActionListIdentityContextConnection' not found.");
+
+builder.Services.AddDbContext<WardActionListIdentityContext>(options =>
+    options.UseSqlite(connectionString));
+
+builder.Services.AddDefaultIdentity<WardActionListUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<WardActionListIdentityContext>();
 
 builder.Services.AddCors(options =>
 {
@@ -40,6 +49,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
